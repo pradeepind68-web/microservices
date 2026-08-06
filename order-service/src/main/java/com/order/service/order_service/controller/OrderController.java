@@ -26,6 +26,9 @@ public class OrderController {
     @Autowired
     private OrderRepo orderRepo;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @GetMapping(value = "/order/{userId}")
     public ResponseEntity<Payload> getOrderStatus(@PathVariable Long userId){
         return null;
@@ -33,7 +36,7 @@ public class OrderController {
 
     @PostMapping(value = "/order")
     public ResponseEntity<Payload> createOrder(@RequestBody OrderDto order){
-        RestTemplate restTemplate = new RestTemplate();
+
         // Verify user
         String userUrl="http://localhost:8765/user-api/user/"+order.userId();
         ResponseEntity<Payload> userResponse=restTemplate.getForEntity(userUrl,Payload.class);

@@ -13,12 +13,10 @@ import java.util.Map;
 @Service
 public class PaymentService {
 
-    private final RestTemplate restTemplate;
     private final PaymentRepo paymentRepo;
     private final CardServiceProxy cardServiceProxy;
 
-    public PaymentService(RestTemplate restTemplate,PaymentRepo paymentRepo,CardServiceProxy cardServiceProxy){
-        this.restTemplate = restTemplate;
+    public PaymentService(PaymentRepo paymentRepo,CardServiceProxy cardServiceProxy){
         this.paymentRepo=paymentRepo;
         this.cardServiceProxy=cardServiceProxy;
     }
