@@ -47,7 +47,7 @@ public class OrderService {
     public ResponseEntity<Payload> createOrder(OrderDto order){
 
         // Verify user
-        String userUrl="http://localhost:8765/user-api/user/"+order.userId();
+        String userUrl="http://user-service:8765/user-api/user/"+order.userId();
         ResponseEntity<Payload> userResponse= restTemplate.getForEntity(userUrl,Payload.class);
         if(userResponse.getBody()==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Payload(null,"Order failed User not found"));
@@ -56,7 +56,7 @@ public class OrderService {
         OrderDetails orderDetails= saveOrder(order);
 
         //get Product check quantity
-        String url="http://localhost:8765/product-api/product/" + order.productId();
+        String url="http://product-service:8765/product-api/product/" + order.productId();
         ResponseEntity<Payload> payloadResponse= restTemplate.getForEntity(url,Payload.class);
         ProductDTO productDTO=null;
         if(payloadResponse.getBody()==null){
@@ -72,7 +72,7 @@ public class OrderService {
         //make payment
         assert productDTO != null;
         double amount=order.quantity()*productDTO.quantity()* productDTO.price();
-        String paymentUrl="http://localhost:8765/payment-api/make/payment";
+        String paymentUrl="http://payment-service:8765/payment-api/make/payment";
         PaymentDto paymentDto=new PaymentDto(null,orderDetails.getOrderId(),amount,"PENDING",order.cardDetails());
         Payload payload= restTemplate.postForEntity(paymentUrl,paymentDto,Payload.class).getBody();
         Map<String,Object> response=null;

@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+
+  naming-server:
+    image: microservice/naming-server:0.0.1-SNAPSHOT
+    container_name: naming-server
+    ports:
+      - "8761:8761"
+
+  api-gateway:
+    image: microservice/api-gateway:0.0.1-SNAPSHOT
+    container_name: api-gateway
+    ports:
+      - "8765:8765"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+
+  auth-service:
+    image: microservice/auth-service:0.0.1-SNAPSHOT
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+
+  user-service:
+    image: microservice/user-service:0.0.1-SNAPSHOT
+    container_name: user-service
+    ports:
+      - "8000:8000"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+
+  product-service:
+    image: microservice/product-service:0.0.1-SNAPSHOT
+    container_name: product-service
+    ports:
+      - "8001:8001"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+
+  card-service:
+    image: microservice/card-service:0.0.1-SNAPSHOT
+    container_name: card-service
+    ports:
+      - "8003:8003"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+
+  payment-service:
+    image: microservice/payment-service:0.0.1-SNAPSHOT
+    container_name: payment-service
+    ports:
+      - "8004:8004"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+
+  order-service:
+    image: microservice/order-service:0.0.1-SNAPSHOT
+    container_name: order-service
+    ports:
+      - "8002:8002"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
