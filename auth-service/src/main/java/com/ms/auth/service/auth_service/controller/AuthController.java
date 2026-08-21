@@ -22,10 +22,13 @@ public class AuthController {
     @Autowired
     private UserClient userClient;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @PostMapping(value = "/register")
     public ResponseEntity<Payload> registerUser(@RequestBody UserDTO userDTO){
-        RestTemplate restTemplate=restTemplate=new RestTemplate();
-        String url="http://localhost:8765/user-api/user";
+
+        String url="http://user-service:8765/user-api/user";
         return restTemplate.postForEntity(url,userDTO,Payload.class);
     }
 

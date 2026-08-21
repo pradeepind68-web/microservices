@@ -9,7 +9,7 @@ import java.util.Map;
 @FeignClient(name = "CARD-SERVICE")
 public interface CardServiceProxy {
 
-    @PostMapping("/api/cards/validate")
+    @PostMapping("/card-api/cards/validate")
     Map<String, Object> checkCardValidity(@RequestBody Map<String,Object> cardDTO);
 
 }
